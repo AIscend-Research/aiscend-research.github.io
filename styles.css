@@ -154,6 +154,20 @@ html { scroll-behavior: smooth; scroll-padding-top: 90px; }
   display: block;
 }
 
+/* white panel holding the animated DNA helix */
+.hero-media-dna {
+  background: #fff;
+  overflow: hidden;
+}
+
+.hero-media-dna canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .placeholder {
   font-family: var(--mono);
   font-size: 13px;
