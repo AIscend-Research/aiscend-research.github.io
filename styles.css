@@ -154,9 +154,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 90px; }
   display: block;
 }
 
-/* white panel holding the animated DNA helix */
+/* panel holding the animated DNA helix */
 .hero-media-dna {
-  background: #fff;
+  background: var(--bone);
   overflow: hidden;
 }
 
