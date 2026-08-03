@@ -2,25 +2,19 @@
 
    The structure is PDB entry 1BNA, the Drew-Dickerson dodecamer (Drew et al., 1981), the
    first full turn of B-DNA solved by X-ray crystallography. Sequence CGCGAATTCGCG, held
-   locally in assets/1bna.pdb exactly as distributed by the RCSB Protein Data Bank. Every
-   atom position is experimental data.
+   locally in assets/1bna.pdb exactly as distributed by the RCSB Protein Data Bank.
 
-   Two things are done to it before rendering, both standard practice:
-
-     1. Its helical axis is found by principal component analysis of the atom coordinates
-        and rotated to vertical, so the duplex stands upright rather than lying at whatever
-        angle the crystal was deposited in.
-     2. The dodecamer is stacked end to end using B-DNA's own helical parameters (a 3.38 A
-        rise and 34.3 degrees of twist per base pair), which is the usual way a longer
-        stretch of B-DNA is built from this structure. The coordinates stay real; the
-        duplex is just longer than one crystallographic repeat.
+   The only thing done to the coordinates is a rigid rotation: the helical axis is found by
+   principal component analysis of the atom positions and stood upright, so the duplex runs
+   up the panel instead of lying at the angle it was deposited in. Nothing is added, moved
+   or invented, so the backbone has no seams in it.
 
    Rendering is 3Dmol.js, a WebGL molecular graphics library used in structural biology. */
 (function () {
   var mount = document.getElementById("dna-viewer");
   if (!mount || typeof $3Dmol === "undefined") return;
 
-  var BONE = "#f7f5f0";        /* panel background */
+  var BONE = "#f7f5f0";     /* panel background */
 
   /* The standard textbook key: a tan sugar-phosphate backbone with each base
      given its own colour. */
@@ -34,15 +28,10 @@
   var BACKBONE_ATOMS = ["P", "OP1", "OP2", "O1P", "O2P", "O5'", "C5'",
                         "C4'", "O4'", "C3'", "O3'", "C2'", "C1'"];
 
-  var COPIES = 2;              /* dodecamers stacked, giving ~2.3 turns */
-  var BP_PER_COPY = 12;
-  var RISE = 3.38;             /* A per base pair */
-  var TWIST = 34.3;            /* degrees per base pair */
+  /* ---------- geometry helpers ---------- */
 
-  /* ---------- small vector helpers ---------- */
-
+  /* largest eigenvector of the coordinate covariance: the long axis of the duplex */
   function dominantAxis(points) {
-    /* covariance matrix of the centred coordinates */
     var c = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     for (var i = 0; i < points.length; i++) {
       var p = points[i];
@@ -51,7 +40,6 @@
       }
     }
 
-    /* power iteration for the largest eigenvector: the long axis of the duplex */
     var v = [1, 1, 1];
     for (var it = 0; it < 64; it++) {
       var n = [
@@ -87,98 +75,48 @@
     ];
   }
 
-  function apply(m, p) {
-    return [
-      m[0][0] * p[0] + m[0][1] * p[1] + m[0][2] * p[2],
-      m[1][0] * p[0] + m[1][1] * p[1] + m[1][2] * p[2],
-      m[2][0] * p[0] + m[2][1] * p[1] + m[2][2] * p[2]
-    ];
-  }
-
-  function col(v, width) {
+  function col(v) {
     var s = v.toFixed(3);
-    while (s.length < width) s = " " + s;
+    while (s.length < 8) s = " " + s;
     return s;
   }
 
-  function pad(v, width) {
-    var s = String(v);
-    while (s.length < width) s = " " + s;
-    return s;
-  }
-
-  var CHAIN_IDS = "ABCDEFGHIJKL";
-
-  /* Build an upright, stacked duplex from the deposited coordinates. */
-  function buildDuplex(pdb) {
+  /* Stand the deposited structure upright, leaving everything else untouched. */
+  function upright(pdb) {
     var lines = pdb.split("\n");
-    var atoms = [];
+    var kept = [], coords = [];
 
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i];
       if (line.indexOf("ATOM") !== 0 && line.indexOf("HETATM") !== 0) continue;
       if (line.substr(17, 3).trim() === "HOH") continue;   /* drop crystal waters */
 
-      atoms.push({
-        line: line,
-        chain: line.charAt(21),
-        resi: parseInt(line.substr(22, 4), 10),
-        xyz: [
-          parseFloat(line.substr(30, 8)),
-          parseFloat(line.substr(38, 8)),
-          parseFloat(line.substr(46, 8))
-        ]
-      });
+      kept.push(line);
+      coords.push([
+        parseFloat(line.substr(30, 8)),
+        parseFloat(line.substr(38, 8)),
+        parseFloat(line.substr(46, 8))
+      ]);
     }
-    if (!atoms.length) return null;
+    if (!kept.length) return null;
 
-    /* centre, then stand the helical axis up along +y */
     var mean = [0, 0, 0];
-    atoms.forEach(function (a) {
-      mean[0] += a.xyz[0]; mean[1] += a.xyz[1]; mean[2] += a.xyz[2];
-    });
-    mean = [mean[0] / atoms.length, mean[1] / atoms.length, mean[2] / atoms.length];
+    coords.forEach(function (p) { mean[0] += p[0]; mean[1] += p[1]; mean[2] += p[2]; });
+    mean = [mean[0] / coords.length, mean[1] / coords.length, mean[2] / coords.length];
 
-    var centred = atoms.map(function (a) {
-      return [a.xyz[0] - mean[0], a.xyz[1] - mean[1], a.xyz[2] - mean[2]];
+    var centred = coords.map(function (p) {
+      return [p[0] - mean[0], p[1] - mean[1], p[2] - mean[2]];
     });
 
-    var axis = dominantAxis(centred);
-    var rot = alignMatrix(axis, [0, 1, 0]);
-    var upright = centred.map(function (p) { return apply(rot, p); });
-
-    /* stack copies along the axis, each advanced by one dodecamer of rise and twist */
+    var m = alignMatrix(dominantAxis(centred), [0, 1, 0]);
     var out = [];
-    var riseStep = RISE * BP_PER_COPY;
-    var twistStep = (TWIST * BP_PER_COPY * Math.PI) / 180;
-    var span = (COPIES - 1) / 2;
 
-    for (var k = 0; k < COPIES; k++) {
-      var dy = (k - span) * riseStep;
-      var ang = (k - span) * twistStep;
-      var ca = Math.cos(ang), sa = Math.sin(ang);
-
-      for (var j = 0; j < atoms.length; j++) {
-        var p = upright[j];
-
-        /* rotate about the vertical axis, then lift into place */
-        var x = p[0] * ca - p[2] * sa;
-        var z = p[0] * sa + p[2] * ca;
-        var y = p[1] + dy;
-
-        var a = atoms[j];
-        var chainIndex = k * 2 + (a.chain === "B" ? 1 : 0);
-
-        out.push(
-          a.line.substr(0, 21) +
-          CHAIN_IDS.charAt(chainIndex % CHAIN_IDS.length) +
-          pad(a.resi + k * BP_PER_COPY, 4) +
-          a.line.substr(26, 4) +
-          col(x, 8) + col(y, 8) + col(z, 8) +
-          a.line.substr(54)
-        );
-      }
-      out.push("TER");
+    for (var j = 0; j < kept.length; j++) {
+      var p = centred[j];
+      var x = m[0][0] * p[0] + m[0][1] * p[1] + m[0][2] * p[2];
+      var y = m[1][0] * p[0] + m[1][1] * p[1] + m[1][2] * p[2];
+      var z = m[2][0] * p[0] + m[2][1] * p[1] + m[2][2] * p[2];
+      out.push(kept[j].substr(0, 30) + col(x) + col(y) + col(z) + kept[j].substr(54));
     }
 
     return out.join("\n") + "\nEND\n";
@@ -199,10 +137,10 @@
   fetch("assets/1bna.pdb")
     .then(function (r) { return r.text(); })
     .then(function (pdb) {
-      var duplex = buildDuplex(pdb);
-      if (!duplex) return;
+      var model = upright(pdb);
+      if (!model) return;
 
-      viewer.addModel(duplex, "pdb");
+      viewer.addModel(model, "pdb");
 
       /* the sugar-phosphate backbone: a tan ribbon down each strand */
       viewer.setStyle({}, {
@@ -218,9 +156,8 @@
       /* the sugars and phosphates stay backbone-coloured, so only the rungs are keyed */
       viewer.addStyle({ atom: BACKBONE_ATOMS }, { stick: { color: TAN, radius: 0.17 } });
 
-      /* the duplex already stands along +y, so it only needs framing */
       viewer.zoomTo();
-      viewer.zoom(0.62);
+      viewer.zoom(0.70);
       viewer.rotate(20, "z");   /* lean the helix off vertical */
       viewer.render();
 
