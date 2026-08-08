@@ -1,169 +1,192 @@
-/* Animated DNA double helix for the home hero.
-   Draws on a white panel using the site palette. The strands carry a colour ramp
-   that travels down the helix; each rung is a base pair (A·T / G·C) with its own hue. */
+/* Real DNA in the home hero.
+
+   The structure is PDB entry 1BNA, the Drew-Dickerson dodecamer (Drew et al., 1981), the
+   first full turn of B-DNA solved by X-ray crystallography. Sequence CGCGAATTCGCG, held
+   locally in assets/1bna.pdb exactly as distributed by the RCSB Protein Data Bank.
+
+   The only thing done to the coordinates is a rigid rotation: the helical axis is found by
+   principal component analysis of the atom positions and stood upright, so the duplex runs
+   up the panel instead of lying at the angle it was deposited in. Nothing is added, moved
+   or invented, so the backbone has no seams in it.
+
+   Rendering is 3Dmol.js, a WebGL molecular graphics library used in structural biology. */
 (function () {
-  var canvas = document.getElementById("dna-canvas");
-  if (!canvas) return;
+  var mount = document.getElementById("dna-viewer");
+  if (!mount || typeof $3Dmol === "undefined") return;
 
-  var ctx = canvas.getContext("2d");
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var BONE = "#f7f5f0";     /* panel background */
 
-  var FOREST = [18, 59, 51];      /* --forest */
-  var FOREST_LIFT = [26, 77, 67]; /* --forest-lift */
-  var GREEN_LINK = [31, 92, 80];  /* --green-link */
-  var TEAL = [23, 130, 112];      /* forest hue, opened up */
-  var AMBER = [240, 178, 92];     /* --amber */
-  var BLUSH = [240, 160, 168];    /* --blush */
-  var CLARET = [143, 45, 60];     /* --claret, lifted off black */
+  /* The standard textbook key: a tan sugar-phosphate backbone with each base
+     given its own colour. */
+  var TAN = "#edc87f";      /* phosphate backbone */
+  var ADENINE = "#7fdd85";  /* green */
+  var THYMINE = "#c48ce6";  /* purple */
+  var CYTOSINE = "#f4808a"; /* red */
+  var GUANINE = "#7f8fe8";  /* blue */
 
-  /* the ramp the strands travel through — forest out to amber and back via claret */
-  var RAMP = [FOREST, GREEN_LINK, TEAL, AMBER, BLUSH, CLARET, FOREST_LIFT];
+  /* sugar and phosphate atoms, so only the bases themselves get base colours */
+  var BACKBONE_ATOMS = ["P", "OP1", "OP2", "O1P", "O2P", "O5'", "C5'",
+                        "C4'", "O4'", "C3'", "O3'", "C2'", "C1'"];
 
-  /* base pairs: A pairs with T, G pairs with C — each pair gets two related hues */
-  var PAIRS = [
-    [AMBER, CLARET],   /* A · T */
-    [TEAL, BLUSH],     /* G · C */
-    [CLARET, AMBER],   /* T · A */
-    [BLUSH, TEAL]      /* C · G */
-  ];
+  /* ---------- geometry helpers ---------- */
 
-  function mix(a, b, k) {
+  /* largest eigenvector of the coordinate covariance: the long axis of the duplex */
+  function dominantAxis(points) {
+    var c = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    for (var i = 0; i < points.length; i++) {
+      var p = points[i];
+      for (var a = 0; a < 3; a++) {
+        for (var b = 0; b < 3; b++) c[a][b] += p[a] * p[b];
+      }
+    }
+
+    var v = [1, 1, 1];
+    for (var it = 0; it < 64; it++) {
+      var n = [
+        c[0][0] * v[0] + c[0][1] * v[1] + c[0][2] * v[2],
+        c[1][0] * v[0] + c[1][1] * v[1] + c[1][2] * v[2],
+        c[2][0] * v[0] + c[2][1] * v[1] + c[2][2] * v[2]
+      ];
+      var len = Math.sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]) || 1;
+      v = [n[0] / len, n[1] / len, n[2] / len];
+    }
+    return v;
+  }
+
+  /* rotation matrix taking unit vector u onto unit vector w (Rodrigues) */
+  function alignMatrix(u, w) {
+    var d = u[0] * w[0] + u[1] * w[1] + u[2] * w[2];
+    if (d > 0.999999) return [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    if (d < -0.999999) return [[-1, 0, 0], [0, -1, 0], [0, 0, 1]];
+
+    var ax = [
+      u[1] * w[2] - u[2] * w[1],
+      u[2] * w[0] - u[0] * w[2],
+      u[0] * w[1] - u[1] * w[0]
+    ];
+    var s = Math.sqrt(ax[0] * ax[0] + ax[1] * ax[1] + ax[2] * ax[2]);
+    var k = [ax[0] / s, ax[1] / s, ax[2] / s];
+    var ct = d, st = s, vt = 1 - ct;
+
     return [
-      a[0] + (b[0] - a[0]) * k,
-      a[1] + (b[1] - a[1]) * k,
-      a[2] + (b[2] - a[2]) * k
+      [ct + k[0] * k[0] * vt,        k[0] * k[1] * vt - k[2] * st, k[0] * k[2] * vt + k[1] * st],
+      [k[1] * k[0] * vt + k[2] * st, ct + k[1] * k[1] * vt,        k[1] * k[2] * vt - k[0] * st],
+      [k[2] * k[0] * vt - k[1] * st, k[2] * k[1] * vt + k[0] * st, ct + k[2] * k[2] * vt]
     ];
   }
 
-  /* sample the ramp at a looping position 0..1 */
-  function ramp(p) {
-    var f = ((p % 1) + 1) % 1 * RAMP.length;
-    var i = Math.floor(f);
-    return mix(RAMP[i % RAMP.length], RAMP[(i + 1) % RAMP.length], f - i);
+  function col(v) {
+    var s = v.toFixed(3);
+    while (s.length < 8) s = " " + s;
+    return s;
   }
 
-  /* opaque tint toward the white panel; overlapping segment caps stay invisible */
-  function tint(rgb, strength) {
-    var r = Math.round(255 + (rgb[0] - 255) * strength);
-    var g = Math.round(255 + (rgb[1] - 255) * strength);
-    var b = Math.round(255 + (rgb[2] - 255) * strength);
-    return "rgb(" + r + "," + g + "," + b + ")";
-  }
+  /* Stand the deposited structure upright, leaving everything else untouched. */
+  function upright(pdb) {
+    var lines = pdb.split("\n");
+    var kept = [], coords = [];
 
-  function rgba(rgb, alpha) {
-    return "rgba(" + Math.round(rgb[0]) + "," + Math.round(rgb[1]) + "," +
-      Math.round(rgb[2]) + "," + alpha + ")";
-  }
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (line.indexOf("ATOM") !== 0 && line.indexOf("HETATM") !== 0) continue;
+      if (line.substr(17, 3).trim() === "HOH") continue;   /* drop crystal waters */
 
-  var w = 0, h = 0, dpr = 1;
+      kept.push(line);
+      coords.push([
+        parseFloat(line.substr(30, 8)),
+        parseFloat(line.substr(38, 8)),
+        parseFloat(line.substr(46, 8))
+      ]);
+    }
+    if (!kept.length) return null;
 
-  function resize() {
-    var rect = canvas.parentElement.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = rect.width;
-    h = rect.height;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
+    var mean = [0, 0, 0];
+    coords.forEach(function (p) { mean[0] += p[0]; mean[1] += p[1]; mean[2] += p[2]; });
+    mean = [mean[0] / coords.length, mean[1] / coords.length, mean[2] / coords.length];
 
-  function draw(time) {
-    ctx.clearRect(0, 0, w, h);
+    var centred = coords.map(function (p) {
+      return [p[0] - mean[0], p[1] - mean[1], p[2] - mean[2]];
+    });
 
-    var cx = w / 2;
-    var amplitude = Math.min(w * 0.22, 150);
-    var margin = h * 0.06;
-    var turns = 2.4;                 /* full twists visible in the panel */
-    var steps = 90;                  /* samples along each strand */
-    var rungEvery = 6;
-    var t = reduceMotion ? 0 : time * 0.0006;
-    var flow = reduceMotion ? 0 : time * 0.00008;  /* colour drifting down the helix */
+    var m = alignMatrix(dominantAxis(centred), [0, 1, 0]);
+    var out = [];
 
-    /* collect points so rungs and strands can be depth-sorted */
-    var segments = [];
-
-    for (var i = 0; i < steps; i++) {
-      var p = i / (steps - 1);
-      var y = margin + p * (h - margin * 2);
-      var angle = p * turns * Math.PI * 2 + t;
-
-      var x1 = cx + Math.sin(angle) * amplitude;
-      var z1 = Math.cos(angle);
-      var x2 = cx + Math.sin(angle + Math.PI) * amplitude;
-      var z2 = Math.cos(angle + Math.PI);
-
-      segments.push({ x1: x1, z1: z1, x2: x2, z2: z2, y: y, p: p, i: i });
+    for (var j = 0; j < kept.length; j++) {
+      var p = centred[j];
+      var x = m[0][0] * p[0] + m[0][1] * p[1] + m[0][2] * p[2];
+      var y = m[1][0] * p[0] + m[1][1] * p[1] + m[1][2] * p[2];
+      var z = m[2][0] * p[0] + m[2][1] * p[1] + m[2][2] * p[2];
+      out.push(kept[j].substr(0, 30) + col(x) + col(y) + col(z) + kept[j].substr(54));
     }
 
-    /* base-pair rungs first, so strands render over them */
-    for (var r = 0; r < segments.length; r++) {
-      if (segments[r].i % rungEvery !== 0) continue;
-      var s = segments[r];
-      var pair = PAIRS[(r / rungEvery) % PAIRS.length];
-      var depth = (s.z1 + 1) / 2; /* 0 = back, 1 = front (per near end) */
-
-      /* the rung fades from one base's colour to its partner's */
-      var grad = ctx.createLinearGradient(s.x1, s.y, s.x2, s.y);
-      grad.addColorStop(0, tint(pair[0], 0.28 + depth * 0.42));
-      grad.addColorStop(1, tint(pair[1], 0.70 - depth * 0.42));
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 2.8;
-      ctx.beginPath();
-      ctx.moveTo(s.x1, s.y);
-      ctx.lineTo(s.x2, s.y);
-      ctx.stroke();
-
-      /* a node at each rung end, in that base's colour, scaled by depth */
-      drawNode(s.x1, s.y, s.z1, pair[0]);
-      drawNode(s.x2, s.y, s.z2, pair[1]);
-    }
-
-    /* the two strands, drawn as depth-shaded polylines */
-    drawStrand(segments, "x1", "z1", flow);
-    drawStrand(segments, "x2", "z2", flow + 0.5);
-
-    if (!reduceMotion) requestAnimationFrame(draw);
+    return out.join("\n") + "\nEND\n";
   }
 
-  function drawStrand(segments, xKey, zKey, flow) {
-    for (var i = 1; i < segments.length; i++) {
-      var a = segments[i - 1], b = segments[i];
-      var depth = ((a[zKey] + b[zKey]) / 2 + 1) / 2;
-      var hue = ramp((a.p + b.p) * 0.35 + flow);
-      ctx.strokeStyle = tint(hue, 0.30 + depth * 0.60);
-      ctx.lineWidth = 3.2 + depth * 3.4;
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      ctx.moveTo(a[xKey], a.y);
-      ctx.lineTo(b[xKey], b.y);
-      ctx.stroke();
-    }
+  var viewer;
+  try {
+    viewer = $3Dmol.createViewer(mount, {
+      backgroundColor: BONE,
+      antialias: true,
+      disableFog: true
+    });
+  } catch (e) {
+    return; /* no WebGL: the panel just stays empty rather than breaking the page */
   }
+  if (!viewer) return;
 
-  function drawNode(x, y, z, color) {
-    var depth = (z + 1) / 2;
-    var radius = 3 + depth * 3.4;
+  fetch("assets/1bna.pdb")
+    .then(function (r) { return r.text(); })
+    .then(function (pdb) {
+      var model = upright(pdb);
+      if (!model) return;
 
-    /* a soft glow behind the front-facing nodes so the colour reads */
-    if (depth > 0.5) {
-      var glow = ctx.createRadialGradient(x, y, radius * 0.5, x, y, radius * 2.4);
-      glow.addColorStop(0, rgba(color, (depth - 0.5) * 0.36));
-      glow.addColorStop(1, rgba(color, 0));
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(x, y, radius * 2.4, 0, Math.PI * 2);
-      ctx.fill();
-    }
+      viewer.addModel(model, "pdb");
 
-    ctx.fillStyle = tint(color, 0.45 + depth * 0.55);
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fill();
-  }
+      /* the sugar-phosphate backbone: a tan ribbon down each strand */
+      viewer.setStyle({}, {
+        cartoon: { color: TAN, style: "oval", thickness: 0.9 }
+      });
 
-  resize();
-  window.addEventListener("resize", resize);
-  requestAnimationFrame(draw);
+      /* each base in its own colour */
+      viewer.addStyle({ resn: ["DA", "A", "ADE"] }, { stick: { color: ADENINE, radius: 0.17 } });
+      viewer.addStyle({ resn: ["DT", "T", "THY"] }, { stick: { color: THYMINE, radius: 0.17 } });
+      viewer.addStyle({ resn: ["DC", "C", "CYT"] }, { stick: { color: CYTOSINE, radius: 0.17 } });
+      viewer.addStyle({ resn: ["DG", "G", "GUA"] }, { stick: { color: GUANINE, radius: 0.17 } });
+
+      /* the sugars and phosphates stay backbone-coloured, so only the rungs are keyed */
+      viewer.addStyle({ atom: BACKBONE_ATOMS }, { stick: { color: TAN, radius: 0.17 } });
+
+      viewer.zoomTo();
+      viewer.zoom(0.70);
+      viewer.rotate(20, "z");   /* lean the helix off vertical */
+      viewer.render();
+
+      /* turn left to right, about the vertical axis, so it stays standing */
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        viewer.spin("y", 0.4);
+      }
+
+      /* pause while the hero is off screen or the tab is hidden */
+      var spinning = true;
+      function setSpin(on) {
+        if (on === spinning) return;
+        spinning = on;
+        viewer.spin(on ? "y" : false, 0.4);
+      }
+
+      if (window.IntersectionObserver) {
+        new IntersectionObserver(function (entries) {
+          setSpin(entries[0].isIntersecting && !document.hidden);
+        }, { threshold: 0 }).observe(mount);
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        setSpin(!document.hidden);
+      });
+    })
+    .catch(function () { /* structure unavailable: leave the panel plain */ });
+
+  window.addEventListener("resize", function () {
+    if (viewer) viewer.resize();
+  });
 })();
