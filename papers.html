@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Papers | AIscend Labs</title>
+<meta name="description" content="Publications and preprints from AIscend Labs." />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body id="top">
+
+<header class="site-header">
+  <a class="brand" href="index.html">
+    <img class="logo" src="logo.png" alt="AIscend Labs" />
+  </a>
+  <nav class="site-nav">
+    <a href="about.html">About</a>
+    <a href="papers.html" class="active">Papers</a>
+    <a href="team.html">Team</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow eyebrow-light">Papers</span>
+    <h1>Work you can read, check, and rerun.</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+
+    <!--
+      TO ADD A PAPER: copy one <article class="paper"> block below and fill it in.
+      Drop the PDF in papers/ and point both the <a class="btn"> and the <iframe>
+      at it. Remove the <div class="paper-embed"> block if you only want links.
+    -->
+
+    <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Replication / Machine Learning &middot; under review</span>
+      <h2 class="paper-title">
+        [Re] A Novel CNN Ablation Reveals Limited Fourier Inductive Bias in LiteFNO:
+        A Reproducibility Study
+      </h2>
+      <p class="paper-authors">
+        Jacob Goldstein*, Kristen Zhou*, Wenhao Lu*, David J. Zhang,
+        Sparsh Deshpande, and Hyunjun Yi
+        <span class="paper-note">*Equal contribution.</span>
+      </p>
+      <p class="paper-abstract">
+        We study LiteFNO, a lightweight Fourier Neural Operator for time-dependent PDEs,
+        in two ways: as a reproducibility study, since no public implementation of the
+        described architecture was available, and as a novel ablation that adds a
+        parameter-matched low-rank CNN the original paper never includes, isolating the
+        Fourier inductive bias. Our central question is whether the Fourier machinery
+        earns its complexity.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/ai4math-repro.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.20793535" target="_blank" rel="noopener">DOI: 10.5281/zenodo.20793535</a>
+      </div>
+
+      <div class="paper-embed">
+        <iframe src="papers/ai4math-repro.pdf#view=FitH" title="[Re] A Novel CNN Ablation Reveals Limited Fourier Inductive Bias in LiteFNO (PDF)" loading="lazy"></iframe>
+      </div>
+      <p class="note paper-fallback">
+        If the paper does not display above, <a href="papers/ai4math-repro.pdf">download the PDF</a>.
+      </p>
+    </article>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-text">
+    <span>AIscend Labs</span>
+    <span class="footer-runby">Run by
+      <a href="https://nxthorizon.org/" target="_blank" rel="noopener">NXT Horizon</a> and
+      <a href="https://www.stemise.org/" target="_blank" rel="noopener">STEMise</a>
+    </span>
+  </div>
+  <nav class="footer-nav">
+    <a href="about.html">About</a>
+    <a href="papers.html">Papers</a>
+    <a href="team.html">Team</a>
+    <a href="mailto:wenhao@nxthorizon.org">Contact</a>
+  </nav>
+</footer>
+
+</body>
+</html>
