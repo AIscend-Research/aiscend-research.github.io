@@ -39,7 +39,10 @@
     <!--
       TO ADD A PAPER: copy one <article class="paper"> block below and fill it in.
       Drop the PDF in papers/ and point the <a class="btn btn-paper"> at it.
+      Two papers sit side by side; a third starts a new row.
     -->
+
+    <div class="papers">
 
     <article class="paper">
       <span class="paper-venue">ReScience C &middot; Machine Learning</span>
@@ -74,17 +77,15 @@
         features automatically extracted by a deep learning algorithm
       </h2>
       <p class="paper-authors">
-        Adithya Balakumar, Spursh Desphande, and Wenhao Lu
+        Adithya Balakumar, Spursh Deshpande, and Wenhao Lu
       </p>
       <p class="paper-abstract">
-        Buda, Saha and Mazurowski (2019) reported that shape features measured on
-        automatically produced tumor masks stay associated with genomic subtype about as
-        strongly as the same features measured on manual masks. We reimplemented the
-        pipeline and evaluated it on the same 110 patients. The association held on the
-        manual masks and disappeared on our predicted ones, with the discrimination AUC
-        falling to 0.455. We report this as a failed replication of the paper's central
-        claim, and argue that the shape features are considerably more fragile under
-        segmentation error than the original numbers suggest.
+        We study the radiogenomic pipeline of Buda, Saha and Mazurowski (2019) in two ways:
+        as a reproducibility study, since no public implementation was available, and as a
+        stress test the original paper never runs, measuring how the reported association
+        between tumor shape and genomic subtype survives when it is computed on
+        automatically produced masks rather than manual ones. Our central question is
+        whether the shape features are stable enough to carry the claim.
       </p>
 
       <div class="paper-links">
@@ -92,6 +93,8 @@
         <a class="btn btn-paper-ghost" href="https://github.com/AIscend-Research/lgg-imaging-repro" target="_blank" rel="noopener">Code</a>
       </div>
     </article>
+
+    </div>
 
   </div>
 </section>
