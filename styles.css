@@ -544,8 +544,11 @@ img.avatar { object-position: center 18%; }
 /* ---------- papers ---------- */
 .papers {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 56px 48px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 52px 40px;
+}
+@media (max-width: 1180px) {
+  .papers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .paper {
@@ -567,7 +570,7 @@ img.avatar { object-position: center 18%; }
 
 .paper-title {
   margin: 0 0 14px;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--forest);
@@ -576,11 +579,17 @@ img.avatar { object-position: center 18%; }
 
 .paper-abstract {
   margin: 0 0 28px;
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
-.paper-links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: auto; }
+.paper-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; }
+.paper-links .btn {
+  padding: 13px 22px;
+  font-size: 13px;
+  letter-spacing: 0.07em;
+  text-align: center;
+}
 .btn-paper { background: var(--forest); color: var(--bone); }
 .btn-paper:hover { background: var(--forest-lift); color: var(--bone); }
 .btn-paper-ghost { border: 2px solid var(--forest); color: var(--forest); }
