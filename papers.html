@@ -40,6 +40,7 @@
       TO ADD A PAPER: copy one <article class="paper"> block below and fill it in.
       Drop the PDF in papers/ and point the <a class="btn btn-paper"> at it.
       Two papers sit side by side; a third starts a new row.
+      Entries are kept in alphabetical order by title, ignoring a leading [Re] tag.
     -->
 
     <div class="papers">
@@ -50,18 +51,15 @@
         [Re] A Novel CNN Ablation Reveals Limited Fourier Inductive Bias in LiteFNO:
         A Reproducibility Study
       </h2>
-      <p class="paper-authors">
-        Jacob Goldstein*, Kristen Zhou*, Wenhao Lu*, David J. Zhang,
-        Spursh Deshpande, and Hyunjun Yi
-        <span class="paper-note">*Equal contribution.</span>
-      </p>
       <p class="paper-abstract">
         We study LiteFNO, a lightweight Fourier Neural Operator for time-dependent PDEs,
         in two ways: as a reproducibility study, since no public implementation of the
         described architecture was available, and as a novel ablation that adds a
         parameter-matched low-rank CNN the original paper never includes, isolating the
         Fourier inductive bias. Our central question is whether the Fourier machinery
-        earns its complexity.
+        earns its complexity. The responsible-AI stake is reproducibility itself: an
+        architectural claim is worth only as much as the independent reimplementation
+        that can check it.
       </p>
 
       <div class="paper-links">
@@ -76,21 +74,122 @@
         [&not;Re] Association of genomic subtypes of lower-grade gliomas with shape
         features automatically extracted by a deep learning algorithm
       </h2>
-      <p class="paper-authors">
-        Adithya Balakumar, Spursh Deshpande, and Wenhao Lu
-      </p>
       <p class="paper-abstract">
         We study the radiogenomic pipeline of Buda, Saha and Mazurowski (2019) in two ways:
         as a reproducibility study, since no public implementation was available, and as a
         stress test the original paper never runs, measuring how the reported association
         between tumor shape and genomic subtype survives when it is computed on
         automatically produced masks rather than manual ones. Our central question is
-        whether the shape features are stable enough to carry the claim.
+        whether the shape features are stable enough to carry the claim. In a clinical
+        setting the answer decides whether a model&rsquo;s output can responsibly be read as
+        evidence about a patient.
       </p>
 
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/lgg-imaging-repro.pdf" target="_blank" rel="noopener">Open PDF</a>
-        <a class="btn btn-paper-ghost" href="https://github.com/AIscend-Research/lgg-imaging-repro" target="_blank" rel="noopener">Code</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">Creative AI</span>
+      <h2 class="paper-title">
+        Does the Decoding Algorithm Have a Voice? Measuring the Sampler&rsquo;s Stylistic
+        Signature Against the Prompt&rsquo;s
+      </h2>
+      <p class="paper-abstract">
+        We study the decoding algorithm, the greedy or temperature or nucleus setting a
+        platform picks on the user&rsquo;s behalf, in two ways: as a detection problem, asking
+        whether a classifier can recover the sampler from style alone, and as a sizing
+        problem, scoring that signature against the model&rsquo;s and the prompt&rsquo;s under one
+        protocol. Our central question is how much of a generated text a silent default
+        wrote. Interpretability here is a matter of credit: a knob the author never saw
+        is a co-author nobody can currently account for.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/208_Does_the_Decoding_Algorith.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">Creative AI</span>
+      <h2 class="paper-title">
+        I Am Speaking Into a Machine That Is Listening: Iterated Transcription as an
+        Uncredited Co-Writer
+      </h2>
+      <p class="paper-abstract">
+        We study automatic transcription in two ways: as a measurement, feeding a
+        recognizer&rsquo;s own output back in as the next performance after Lucier&rsquo;s
+        <em>I Am Sitting in a Room</em>, and as a test of the claim that generative loops
+        collapse into a shared house style. Our central question is what a transcriber
+        writes into a text that was never said. The stake is access: speech interfaces are
+        how many people reach these systems at all, and the rewriting is small, permanent,
+        and delivered at a confidence that never wavers.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/220_I_Am_Speaking_Into_a_Machi.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">Creative AI</span>
+      <h2 class="paper-title">
+        Style Gravity, in Text: How Long a Human-Authored Poem Opening Survives Inside a
+        Model&rsquo;s Continuation
+      </h2>
+      <p class="paper-abstract">
+        We study the pull a model exerts on a human opening in two ways: as a measurement,
+        scoring each continued line between the author&rsquo;s style and the model&rsquo;s house style
+        on surface features alone, and as an audit of a withdrawn affordance, since the
+        prefill channel this work depends on has been removed from the current Claude
+        line. Our central question is what holds a poem where its author put it. The
+        finding bears on platform power: an interface decision quietly changes how much of
+        a co-written text stays the writer&rsquo;s.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/202_Style_Gravity_in_Text_How_.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">Creative AI</span>
+      <h2 class="paper-title">
+        The Unchosen Word: Language Models as Editors of Poetic Indeterminacy
+      </h2>
+      <p class="paper-abstract">
+        We study models as editors in two ways: by putting four of them in the editor&rsquo;s
+        chair on 113 sites where Dickinson left alternative words standing and never chose
+        between them, and by randomizing the manuscript&rsquo;s own layout to see whether the
+        decision is being made by the poem or by typography. Our central question is what
+        a system&rsquo;s demand for one fluent output does to meaning that was held open on
+        purpose. It is a cultural-stewardship case: resolution that looks like editing is
+        a redistribution of authority over the text.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/195_The_Unchosen_Word_Language.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">Creative AI</span>
+      <h2 class="paper-title">
+        Unauthored by Design: The Seed&rsquo;s Share of a Generated Artifact
+      </h2>
+      <p class="paper-abstract">
+        We study the random seed in two ways: as a variance decomposition over a fully
+        crossed prompt &times; model &times; seed design, and as a comparison run identically
+        across image and text so the two modalities sit on the same footing. Our central
+        question is how much of an artifact a person determined when they wrote the
+        prompt. The answer matters wherever authorship carries weight, in credit,
+        licensing, and disclosure: specification has a floor, and the seed is not quite
+        noise.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/188_Unauthored_by_Design_The_S.pdf" target="_blank" rel="noopener">Open PDF</a>
       </div>
     </article>
 

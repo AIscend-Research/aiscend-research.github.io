@@ -574,13 +574,6 @@ img.avatar { object-position: center 18%; }
   text-wrap: balance;
 }
 
-.paper-authors {
-  margin: 0 0 20px;
-  font-size: 17px;
-  line-height: 1.6;
-}
-.paper-note { display: block; color: #5c5a4e; font-size: 15px; }
-
 .paper-abstract {
   margin: 0 0 28px;
   font-size: 17px;
