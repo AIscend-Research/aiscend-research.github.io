@@ -193,6 +193,29 @@
     </article>
 
     <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <h2 class="paper-title">
+        [Re] Invisible Farms: Reproducing and Stress-Testing Small-Scale Irrigation
+        Detection for Zambia
+      </h2>
+      <p class="paper-abstract">
+        We study the smallholder-irrigation mapping method of Boser et al. (2025) in two ways:
+        as a reproduction, since the proposal reports no model metrics and its pipeline
+        depends on gated Earth Engine access, so we rebuild it on an open no-credentials
+        stack and report the first quantitative baselines, and as a stress test of the
+        three choices it leaves open. Our central question is how much of the headline
+        rests on defaults nobody set deliberately. Access is the point: climate-adaptation
+        work is only usable by the people it describes if the pipeline runs without a
+        credential and the reported gaps survive a proper test.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-invisible-farms-irrigation.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21858508" title="DOI: 10.5281/zenodo.21858508" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </article>
+
+    <article class="paper">
       <span class="paper-venue">AI &times; Humanities &middot; Curation</span>
       <h2 class="paper-title">
         Many Doors, One Room: Independent Venues Converge When Both Sides of a Creative
@@ -235,6 +258,27 @@
     </article>
 
     <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
+      <h2 class="paper-title">
+        [Re] Robust deep learning&ndash;based protein sequence design using ProteinMPNN
+      </h2>
+      <p class="paper-abstract">
+        We study ProteinMPNN in two ways: as a reproduction of its core sequence-design
+        results from the official code and weights, and as a robustness study the original
+        paper never runs, perturbing backbones with coordinate noise, masking residues, and
+        feeding deliberately malformed input. Our central question is what the model does
+        when the structure it is handed is wrong. The failure modes are the responsible-AI
+        finding: the more accurate model is not the more robust one, and most malformed
+        inputs fail silently rather than raising an error.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-proteinmpnn-sequence-design.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21889869" title="DOI: 10.5281/zenodo.21889869" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </article>
+
+    <article class="paper">
       <span class="paper-venue">AI &times; Humanities &middot; Co-writing</span>
       <h2 class="paper-title">
         Style Gravity, in Text: How Long a Human-Authored Poem Opening Survives Inside a
@@ -252,6 +296,29 @@
 
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/style-gravity-in-text.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <h2 class="paper-title">
+        [Re] TB-Net: A Tailored, Self-Attention Deep Convolutional Neural Network Design
+        for Detection of Tuberculosis Cases from Chest X-Ray Images
+      </h2>
+      <p class="paper-abstract">
+        We study TB-Net (Wong et al., 2022), reported at 99.86% accuracy for tuberculosis
+        detection, in two ways: as a replication, which published materials do not permit,
+        since the architecture loads from a checkpoint whose download link is dead and the
+        training cohort has changed since publication, and as a compression and robustness
+        study aimed at smartphone deployment. Our central question is what survives the
+        move from a headline number to a clinic. It is a health-access result: the models
+        that would reach low-resource settings are the small ones, and we measure what
+        shrinking them costs.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-tbnet-tuberculosis.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21891275" title="DOI: 10.5281/zenodo.21891275" target="_blank" rel="noopener">DOI</a>
       </div>
     </article>
 
