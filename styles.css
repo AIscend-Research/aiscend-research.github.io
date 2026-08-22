@@ -636,9 +636,10 @@ img.avatar { object-position: center 18%; }
   margin-top: 36px;
 }
 .collab-logos img {
-  height: 44px;
+  height: 56px;
   width: auto;
   max-width: 100%;
+  mix-blend-mode: multiply;
 }
 @media (max-width: 720px) {
   .collab-logos { gap: 28px; }
