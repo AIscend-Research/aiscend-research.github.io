@@ -626,3 +626,21 @@ img.avatar { object-position: center 18%; }
   .hero-panel { padding: 64px 32px; }
   .hero-panel h1 { font-size: 44px; }
 }
+
+/* collaboration logo row on the home page */
+.collab-logos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 48px;
+  margin-top: 36px;
+}
+.collab-logos img {
+  height: 44px;
+  width: auto;
+  max-width: 100%;
+}
+@media (max-width: 720px) {
+  .collab-logos { gap: 28px; }
+  .collab-logos img { height: 34px; }
+}
