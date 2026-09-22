@@ -40,8 +40,8 @@
       TO ADD A PAPER: copy one <article class="paper"> block below and fill it in.
       Drop the PDF in papers/ and point the <a class="btn btn-paper"> at it.
       Two papers sit side by side; a third starts a new row.
-      Replications ([Re]) come first, then everything else; alphabetical within each
-      group, ignoring the leading [Re] tag.
+      Papers are listed in alphabetical order by title, ignoring the leading
+      [Re] / [&not;Re] tag.
     -->
 
     <div class="papers">
@@ -93,123 +93,6 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Medical imaging</span>
-      <h2 class="paper-title">
-        [&not;Re] Diffusion-Based Hierarchical Multi-Label Object Detection to Analyze
-        Panoramic Dental X-rays
-      </h2>
-      <p class="paper-abstract">
-        We study HierarchicalDet, a diffusion-based detector trained across three tiers
-        of DENTEX panoramic X-ray annotation, in two ways: as a replication retrained
-        end-to-end on free-tier Kaggle hardware, since no trained weights are released,
-        and as an audit of what the public data can actually support. Our central
-        question is whether the pipeline can be checked by someone without a GPU
-        cluster. At our training budget the reproduction fails, reaching 6 to 13 percent
-        of the reported AP, but two findings survive any budget: the public test release
-        carries no Deep Caries label at all, so the reported diagnosis numbers cannot be
-        recomputed from public data by anyone, and the dataset ships under two different
-        licences at once.
-      </p>
-
-      <div class="paper-links">
-        <a class="btn btn-paper" href="papers/re-dentex-dental-xrays.pdf" target="_blank" rel="noopener">Open PDF</a>
-        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.22052255" title="DOI: 10.5281/zenodo.22052255" target="_blank" rel="noopener">DOI</a>
-      </div>
-    </article>
-
-    <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
-      <h2 class="paper-title">
-        [Re] Improved survival analysis by learning shared genomic information from
-        pan-cancer data
-      </h2>
-      <p class="paper-abstract">
-        We study VAECox (Kim et al., 2020), a transfer-learning survival model that
-        pretrains a variational autoencoder on pan-cancer RNA-seq before fine-tuning per
-        cancer, in two ways: as a reproduction retrained end-to-end on open-access TCGA
-        data, since the original cohort sits behind controlled access, and as an
-        extension the paper never runs, covering robustness, feature budgets,
-        lightweight models, subgroup fairness and risk stratification. Our central
-        question is whether transfer from pan-cancer data actually earns its keep. The
-        margins are the finding: VAECox keeps the best mean C-index but wins 5 of 10
-        cancers rather than the reported 7, and the per-cancer gaps are an order of
-        magnitude smaller than the seed-to-seed noise.
-      </p>
-
-      <div class="paper-links">
-        <a class="btn btn-paper" href="papers/re-vaecox-pan-cancer-survival.pdf" target="_blank" rel="noopener">Open PDF</a>
-        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.22010574" title="DOI: 10.5281/zenodo.22010574" target="_blank" rel="noopener">DOI</a>
-      </div>
-    </article>
-
-    <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
-      <h2 class="paper-title">
-        [Re] MedMNIST v2: Replicating the ResNet baselines and auditing what macro-AUC
-        hides on DermaMNIST
-      </h2>
-      <p class="paper-abstract">
-        We study the MedMNIST v2 ResNet baselines, which anchor a large body of follow-up
-        work, in two ways: as a replication from the paper&rsquo;s description alone, without the
-        authors&rsquo; code and against a pre-registered tolerance, and as an equity audit of
-        DermaMNIST that the original never runs. Our central question is what the headline
-        metric hides. It is a fairness result with a clinical edge: macro-AUC is
-        essentially uncorrelated with class frequency while recall tracks it closely, so a
-        rare skin lesion can read as well classified and still go almost entirely
-        undetected.
-      </p>
-
-      <div class="paper-links">
-        <a class="btn btn-paper" href="papers/re-medmnist-derma-audit.pdf" target="_blank" rel="noopener">Open PDF</a>
-        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21898000" title="DOI: 10.5281/zenodo.21898000" target="_blank" rel="noopener">DOI</a>
-      </div>
-    </article>
-
-    <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
-      <h2 class="paper-title">
-        [Re] Robust deep learning&ndash;based protein sequence design using ProteinMPNN
-      </h2>
-      <p class="paper-abstract">
-        We study ProteinMPNN in two ways: as a reproduction of its core sequence-design
-        results from the official code and weights, and as a robustness study the original
-        paper never runs, perturbing backbones with coordinate noise, masking residues, and
-        feeding deliberately malformed input. Our central question is what the model does
-        when the structure it is handed is wrong. The failure modes are the responsible-AI
-        finding: the more accurate model is not the more robust one, and most malformed
-        inputs fail silently rather than raising an error.
-      </p>
-
-      <div class="paper-links">
-        <a class="btn btn-paper" href="papers/re-proteinmpnn-sequence-design.pdf" target="_blank" rel="noopener">Open PDF</a>
-        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21945190" title="DOI: 10.5281/zenodo.21945190" target="_blank" rel="noopener">DOI</a>
-      </div>
-    </article>
-
-    <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
-      <h2 class="paper-title">
-        [Re] TB-Net: A Tailored, Self-Attention Deep Convolutional Neural Network Design
-        for Detection of Tuberculosis Cases from Chest X-Ray Images
-      </h2>
-      <p class="paper-abstract">
-        We study TB-Net (Wong et al., 2022), reported at 99.86% accuracy for tuberculosis
-        detection, in two ways: as a replication, which published materials do not permit,
-        since the architecture loads from a checkpoint whose download link is dead and the
-        training cohort has changed since publication, and as a compression and robustness
-        study aimed at smartphone deployment. Our central question is what survives the
-        move from a headline number to a clinic. It is a health-access result: the models
-        that would reach low-resource settings are the small ones, and we measure what
-        shrinking them costs.
-      </p>
-
-      <div class="paper-links">
-        <a class="btn btn-paper" href="papers/re-tbnet-tuberculosis.pdf" target="_blank" rel="noopener">Open PDF</a>
-        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21891275" title="DOI: 10.5281/zenodo.21891275" target="_blank" rel="noopener">DOI</a>
-      </div>
-    </article>
-
-    <article class="paper">
       <span class="paper-venue">Sports analytics &middot; Decision modeling</span>
       <h2 class="paper-title">
         Challenge Run Value (cRV): quantifying strategic value in MLB&rsquo;s ABS challenge
@@ -250,6 +133,31 @@
 
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/compulsory-hope.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Medical imaging</span>
+      <h2 class="paper-title">
+        [&not;Re] Diffusion-Based Hierarchical Multi-Label Object Detection to Analyze
+        Panoramic Dental X-rays
+      </h2>
+      <p class="paper-abstract">
+        We study HierarchicalDet, a diffusion-based detector trained across three tiers
+        of DENTEX panoramic X-ray annotation, in two ways: as a replication retrained
+        end-to-end on free-tier Kaggle hardware, since no trained weights are released,
+        and as an audit of what the public data can actually support. Our central
+        question is whether the pipeline can be checked by someone without a GPU
+        cluster. At our training budget the reproduction fails, reaching 6 to 13 percent
+        of the reported AP, but two findings survive any budget: the public test release
+        carries no Deep Caries label at all, so the reported diagnosis numbers cannot be
+        recomputed from public data by anyone, and the dataset ships under two different
+        licences at once.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-dentex-dental-xrays.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.22052255" title="DOI: 10.5281/zenodo.22052255" target="_blank" rel="noopener">DOI</a>
       </div>
     </article>
 
@@ -335,6 +243,31 @@
     </article>
 
     <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
+      <h2 class="paper-title">
+        [Re] Improved survival analysis by learning shared genomic information from
+        pan-cancer data
+      </h2>
+      <p class="paper-abstract">
+        We study VAECox (Kim et al., 2020), a transfer-learning survival model that
+        pretrains a variational autoencoder on pan-cancer RNA-seq before fine-tuning per
+        cancer, in two ways: as a reproduction retrained end-to-end on open-access TCGA
+        data, since the original cohort sits behind controlled access, and as an
+        extension the paper never runs, covering robustness, feature budgets,
+        lightweight models, subgroup fairness and risk stratification. Our central
+        question is whether transfer from pan-cancer data actually earns its keep. The
+        margins are the finding: VAECox keeps the best mean C-index but wins 5 of 10
+        cancers rather than the reported 7, and the per-cancer gaps are an order of
+        magnitude smaller than the seed-to-seed noise.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-vaecox-pan-cancer-survival.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.22010574" title="DOI: 10.5281/zenodo.22010574" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </article>
+
+    <article class="paper">
       <span class="paper-venue">AI &times; Humanities &middot; Curation</span>
       <h2 class="paper-title">
         Many Doors, One Room: Independent Venues Converge When Both Sides of a Creative
@@ -352,6 +285,29 @@
 
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/many-doors-one-room.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <h2 class="paper-title">
+        [Re] MedMNIST v2: Replicating the ResNet baselines and auditing what macro-AUC
+        hides on DermaMNIST
+      </h2>
+      <p class="paper-abstract">
+        We study the MedMNIST v2 ResNet baselines, which anchor a large body of follow-up
+        work, in two ways: as a replication from the paper&rsquo;s description alone, without the
+        authors&rsquo; code and against a pre-registered tolerance, and as an equity audit of
+        DermaMNIST that the original never runs. Our central question is what the headline
+        metric hides. It is a fairness result with a clinical edge: macro-AUC is
+        essentially uncorrelated with class frequency while recall tracks it closely, so a
+        rare skin lesion can read as well classified and still go almost entirely
+        undetected.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-medmnist-derma-audit.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21898000" title="DOI: 10.5281/zenodo.21898000" target="_blank" rel="noopener">DOI</a>
       </div>
     </article>
 
@@ -397,6 +353,27 @@
     </article>
 
     <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
+      <h2 class="paper-title">
+        [Re] Robust deep learning&ndash;based protein sequence design using ProteinMPNN
+      </h2>
+      <p class="paper-abstract">
+        We study ProteinMPNN in two ways: as a reproduction of its core sequence-design
+        results from the official code and weights, and as a robustness study the original
+        paper never runs, perturbing backbones with coordinate noise, masking residues, and
+        feeding deliberately malformed input. Our central question is what the model does
+        when the structure it is handed is wrong. The failure modes are the responsible-AI
+        finding: the more accurate model is not the more robust one, and most malformed
+        inputs fail silently rather than raising an error.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-proteinmpnn-sequence-design.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21945190" title="DOI: 10.5281/zenodo.21945190" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </article>
+
+    <article class="paper">
       <span class="paper-venue">AI &times; Humanities &middot; Co-writing</span>
       <h2 class="paper-title">
         Style Gravity, in Text: How Long a Human-Authored Poem Opening Survives Inside a
@@ -414,6 +391,29 @@
 
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/style-gravity-in-text.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </article>
+
+    <article class="paper">
+      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <h2 class="paper-title">
+        [Re] TB-Net: A Tailored, Self-Attention Deep Convolutional Neural Network Design
+        for Detection of Tuberculosis Cases from Chest X-Ray Images
+      </h2>
+      <p class="paper-abstract">
+        We study TB-Net (Wong et al., 2022), reported at 99.86% accuracy for tuberculosis
+        detection, in two ways: as a replication, which published materials do not permit,
+        since the architecture loads from a checkpoint whose download link is dead and the
+        training cohort has changed since publication, and as a compression and robustness
+        study aimed at smartphone deployment. Our central question is what survives the
+        move from a headline number to a clinic. It is a health-access result: the models
+        that would reach low-resource settings are the small ones, and we measure what
+        shrinking them costs.
+      </p>
+
+      <div class="paper-links">
+        <a class="btn btn-paper" href="papers/re-tbnet-tuberculosis.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21891275" title="DOI: 10.5281/zenodo.21891275" target="_blank" rel="noopener">DOI</a>
       </div>
     </article>
 
