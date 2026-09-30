@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=5" />
+<link rel="stylesheet" href="styles.css?v=7" />
 </head>
 <body id="top">
 
@@ -22,6 +22,7 @@
     <a href="about.html">About</a>
     <a href="papers.html" class="active">Papers</a>
     <a href="team.html">Team</a>
+    <a href="news.html">News</a>
     <a href="index.html#contact">Contact</a>
   </nav>
 </header>
@@ -47,22 +48,11 @@
     <div class="papers">
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [Re] A Novel CNN Ablation Reveals Limited Fourier Inductive Bias in LiteFNO:
         A Reproducibility Study
       </h2>
-      <p class="paper-abstract">
-        We study LiteFNO, a lightweight Fourier Neural Operator for time-dependent PDEs,
-        in two ways: as a reproducibility study, since no public implementation of the
-        described architecture was available, and as a novel ablation that adds a
-        parameter-matched low-rank CNN the original paper never includes, isolating the
-        Fourier inductive bias. Our central question is whether the Fourier machinery
-        earns its complexity. The responsible-AI stake is reproducibility itself: an
-        architectural claim is worth only as much as the independent reimplementation
-        that can check it.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-litefno-cnn-ablation.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.20793535" title="DOI: 10.5281/zenodo.20793535" target="_blank" rel="noopener">DOI</a>
@@ -70,22 +60,11 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Medical imaging</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [&not;Re] Association of genomic subtypes of lower-grade gliomas with shape
         features automatically extracted by a deep learning algorithm
       </h2>
-      <p class="paper-abstract">
-        We study the radiogenomic pipeline of Buda, Saha and Mazurowski (2019) in two ways:
-        as a reproducibility study, since no public implementation was available, and as a
-        stress test the original paper never runs, measuring how the reported association
-        between tumor shape and genomic subtype survives when it is computed on
-        automatically produced masks rather than manual ones. Our central question is
-        whether the shape features are stable enough to carry the claim. In a clinical
-        setting the answer decides whether a model&rsquo;s output can responsibly be read as
-        evidence about a patient.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-lgg-shape-features.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21858180" title="DOI: 10.5281/zenodo.21858180" target="_blank" rel="noopener">DOI</a>
@@ -93,23 +72,10 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">Sports analytics &middot; Decision modeling</span>
       <h2 class="paper-title">
         Challenge Run Value (cRV): quantifying strategic value in MLB&rsquo;s ABS challenge
         era
       </h2>
-      <p class="paper-abstract">
-        We study the Automated Ball-Strike challenge in two ways: as a run-expectancy
-        problem, pricing the state change a challenge produces against an empirically
-        derived surface built from public Statcast data, and as a resource-allocation
-        problem, since a challenge is scarce and spending one forecloses later options.
-        Our central question is what a challenge is worth at the moment it is spent. The
-        method is the argument: terminal outcomes that end a plate appearance have to be
-        priced rather than zeroed, and zeroing them inverts the sign of the headline
-        result, which is the kind of buried modeling choice a public, reproducible
-        pipeline exists to expose.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/challenge-run-value-abs.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21925850" title="DOI: 10.5281/zenodo.21925850" target="_blank" rel="noopener">DOI</a>
@@ -117,24 +83,11 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Medical imaging</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [&not;Re] Diffusion-Based Hierarchical Multi-Label Object Detection to Analyze
         Panoramic Dental X-rays
       </h2>
-      <p class="paper-abstract">
-        We study HierarchicalDet, a diffusion-based detector trained across three tiers
-        of DENTEX panoramic X-ray annotation, in two ways: as a replication retrained
-        end-to-end on free-tier Kaggle hardware, since no trained weights are released,
-        and as an audit of what the public data can actually support. Our central
-        question is whether the pipeline can be checked by someone without a GPU
-        cluster. At our training budget the reproduction fails, reaching 6 to 13 percent
-        of the reported AP, but two findings survive any budget: the public test release
-        carries no Deep Caries label at all, so the reported diagnosis numbers cannot be
-        recomputed from public data by anyone, and the dataset ships under two different
-        licences at once.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-dentex-dental-xrays.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.22052255" title="DOI: 10.5281/zenodo.22052255" target="_blank" rel="noopener">DOI</a>
@@ -142,24 +95,11 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [Re] Improved survival analysis by learning shared genomic information from
         pan-cancer data
       </h2>
-      <p class="paper-abstract">
-        We study VAECox (Kim et al., 2020), a transfer-learning survival model that
-        pretrains a variational autoencoder on pan-cancer RNA-seq before fine-tuning per
-        cancer, in two ways: as a reproduction retrained end-to-end on open-access TCGA
-        data, since the original cohort sits behind controlled access, and as an
-        extension the paper never runs, covering robustness, feature budgets,
-        lightweight models, subgroup fairness and risk stratification. Our central
-        question is whether transfer from pan-cancer data actually earns its keep. The
-        margins are the finding: VAECox keeps the best mean C-index but wins 5 of 10
-        cancers rather than the reported 7, and the per-cancer gaps are an order of
-        magnitude smaller than the seed-to-seed noise.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-vaecox-pan-cancer-survival.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.22010574" title="DOI: 10.5281/zenodo.22010574" target="_blank" rel="noopener">DOI</a>
@@ -167,22 +107,11 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [Re] MedMNIST v2: Replicating the ResNet baselines and auditing what macro-AUC
         hides on DermaMNIST
       </h2>
-      <p class="paper-abstract">
-        We study the MedMNIST v2 ResNet baselines, which anchor a large body of follow-up
-        work, in two ways: as a replication from the paper&rsquo;s description alone, without the
-        authors&rsquo; code and against a pre-registered tolerance, and as an equity audit of
-        DermaMNIST that the original never runs. Our central question is what the headline
-        metric hides. It is a fairness result with a clinical edge: macro-AUC is
-        essentially uncorrelated with class frequency while recall tracks it closely, so a
-        rare skin lesion can read as well classified and still go almost entirely
-        undetected.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-medmnist-derma-audit.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21898000" title="DOI: 10.5281/zenodo.21898000" target="_blank" rel="noopener">DOI</a>
@@ -190,61 +119,31 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">Sports analytics &middot; Player evaluation</span>
       <h2 class="paper-title">
         Pitch-Quality Surplus (PQS): measuring hitter value net of pitch quality
       </h2>
-      <p class="paper-abstract">
-        We study hitter value in two ways: as a residual, subtracting a model of what each
-        pitch implied before contact from the run value the hitter actually produced, and as
-        a decomposition, splitting that surplus into what is earned against the hardest
-        pitches a hitter saw and what is earned against mistakes. Our central question is
-        what a batting line measures once the pitching is held constant. The two components
-        turn out to be nearly orthogonal, so how a hitter is good is two separable skills
-        that standard statistics report as one number.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/pitch-quality-surplus.pdf" target="_blank" rel="noopener">Open PDF</a>
       </div>
     </article>
 
     <article class="paper">
-      <span class="paper-venue">NeurIPS Creative AI 2026 &middot; Poetics</span>
+      <span class="accepted-badge">Accepted into NeurIPS Creative AI</span>
       <h2 class="paper-title">
         Restored Lines: A Model Finds the Poet&rsquo;s Hardest Line Breaks and Declines to
         Write Them
       </h2>
-      <p class="paper-abstract">
-        We study the line break, the one poetic decision no rule fixes, in two ways: by
-        stripping the lineation from 2,059 public-domain poems and asking a model to put
-        it back, graded by how much syntax each break severs, and by asking the same model
-        to write free verse of its own on matched subjects. Our central question is
-        whether recognising a creative decision and making one are the same capacity. The
-        gap between them says something practical about where these systems belong: closer
-        to an instrument for reading than a collaborator in writing.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/restored-lines.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://openreview.net/forum?id=XRjFExVggk" title="OpenReview" target="_blank" rel="noopener">OpenReview</a>
       </div>
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Computational Biology</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [Re] Robust deep learning&ndash;based protein sequence design using ProteinMPNN
       </h2>
-      <p class="paper-abstract">
-        We study ProteinMPNN in two ways: as a reproduction of its core sequence-design
-        results from the official code and weights, and as a robustness study the original
-        paper never runs, perturbing backbones with coordinate noise, masking residues, and
-        feeding deliberately malformed input. Our central question is what the model does
-        when the structure it is handed is wrong. The failure modes are the responsible-AI
-        finding: the more accurate model is not the more robust one, and most malformed
-        inputs fail silently rather than raising an error.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-proteinmpnn-sequence-design.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21945190" title="DOI: 10.5281/zenodo.21945190" target="_blank" rel="noopener">DOI</a>
@@ -252,22 +151,11 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">ReScience C &middot; Machine Learning</span>
+      <span class="accepted-badge">Accepted into ReScience C Journal</span>
       <h2 class="paper-title">
         [Re] TB-Net: A Tailored, Self-Attention Deep Convolutional Neural Network Design
         for Detection of Tuberculosis Cases from Chest X-Ray Images
       </h2>
-      <p class="paper-abstract">
-        We study TB-Net (Wong et al., 2022), reported at 99.86% accuracy for tuberculosis
-        detection, in two ways: as a replication, which published materials do not permit,
-        since the architecture loads from a checkpoint whose download link is dead and the
-        training cohort has changed since publication, and as a compression and robustness
-        study aimed at smartphone deployment. Our central question is what survives the
-        move from a headline number to a clinic. It is a health-access result: the models
-        that would reach low-resource settings are the small ones, and we measure what
-        shrinking them costs.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/re-tbnet-tuberculosis.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn btn-paper-ghost" href="https://doi.org/10.5281/zenodo.21891275" title="DOI: 10.5281/zenodo.21891275" target="_blank" rel="noopener">DOI</a>
@@ -275,21 +163,13 @@
     </article>
 
     <article class="paper">
-      <span class="paper-venue">NeurIPS Creative AI 2026 &middot; Phonology</span>
+      <span class="accepted-badge">Accepted into NeurIPS Creative AI</span>
       <h2 class="paper-title">
         The Dead Ear: A Language Model&rsquo;s Inherited Accent Is an Archive, Not an Author
       </h2>
-      <p class="paper-abstract">
-        We study inherited pronunciation in two ways: by building an item set from six dated
-        sound changes, so that &ldquo;these words once rhymed&rdquo; follows from a documented event
-        rather than a famous couplet, and by separating what a model reads off the page
-        from what it hears. Our central question is whether accents nobody speaks still
-        write. The answer bears on how we assign credit: a model can consult five
-        centuries of verse accurately and still keep it out of its own writing.
-      </p>
-
       <div class="paper-links">
         <a class="btn btn-paper" href="papers/the-dead-ear.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn btn-paper-ghost" href="https://openreview.net/forum?id=BLL8YXu9ar" title="OpenReview" target="_blank" rel="noopener">OpenReview</a>
       </div>
     </article>
 
@@ -310,6 +190,7 @@
     <a href="about.html">About</a>
     <a href="papers.html">Papers</a>
     <a href="team.html">Team</a>
+    <a href="news.html">News</a>
     <a href="mailto:aiscend.research@gmail.com">Contact</a>
   </nav>
 </footer>
