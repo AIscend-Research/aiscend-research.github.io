@@ -664,3 +664,140 @@ img.avatar { object-position: center 18%; }
   border: 2px solid var(--forest);
   padding: 10px 18px;
 }
+
+/* ---------- motion & science details (driven by fx.js) ---------- */
+
+/* neural network drawn behind the forest heroes */
+.fx-net {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.page-hero .wrap, .hero-panel h1, .hero-panel p, .actions { z-index: 1; }
+
+/* a signal trace running along the foot of each subpage hero */
+.page-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  height: 28px;
+  pointer-events: none;
+  opacity: 0.45;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='28' viewBox='0 0 240 28'%3E%3Cpath d='M0 14 H70 L78 14 L84 4 L92 24 L98 9 L104 14 H170 Q180 14 185 10 T200 14 H240' fill='none' stroke='%23f0b25c' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") repeat-x 0 0 / 240px 28px;
+  animation: fx-trace 9s linear infinite;
+}
+@keyframes fx-trace { to { background-position: -240px 0; } }
+
+/* dark sections carry a faint hexagonal (molecular) lattice */
+.section-dark {
+  background-color: var(--forest);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0 L56 16 V48 L28 64 L0 48 V16 Z M28 64 V97' fill='none' stroke='%237fa89c' stroke-opacity='0.08' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 56px 97px;
+}
+
+/* eyebrows open with a small live signal */
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  vertical-align: 1px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  animation: fx-ping 2.8s ease-out infinite;
+}
+@keyframes fx-ping {
+  0%   { box-shadow: 0 0 0 0 rgba(240, 178, 92, 0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(240, 178, 92, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(240, 178, 92, 0); }
+}
+
+/* nav links underline from the left */
+.site-nav a:not(.active) { position: relative; }
+.site-nav a:not(.active)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.site-nav a:not(.active):hover::after { transform: scaleX(1); }
+
+/* value cards: the amber tick grows on hover */
+.card::before { transition: width 0.4s ease; }
+.card:hover::before { width: 100%; }
+
+/* papers: an amber rule sweeps across the top, and the card lifts */
+.paper { position: relative; transition: transform 0.25s ease; }
+.paper::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s ease;
+}
+.paper:hover { transform: translateY(-3px); }
+.paper:hover::before { transform: scaleX(1); }
+
+/* venue chips: a node on each, filling in on hover */
+.venue-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.venue-list li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 2px var(--forest);
+}
+.venue-list li:hover { background: var(--forest); color: var(--bone); transform: translateY(-2px); }
+
+/* team portraits pick up an orbit ring on hover */
+.avatar { transition: box-shadow 0.3s ease, transform 0.3s ease; }
+.person:hover .avatar {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 5px var(--bone), 0 0 0 7px var(--amber);
+}
+
+/* collaborator logos warm up from grey */
+.collab-logos img { filter: grayscale(1); opacity: 0.8; transition: filter 0.3s ease, opacity 0.3s ease; }
+.collab-logos img:hover { filter: none; opacity: 1; }
+
+/* content rises into place as it scrolls in */
+.fx-ready .fx-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition-property: opacity, transform;
+  transition-duration: 0.7s;
+  transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.fx-ready .fx-reveal.fx-in { opacity: 1; transform: none; }
+/* once in, hover transforms should respond immediately */
+.fx-ready .paper.fx-in, .fx-ready .venue-list li.fx-in {
+  transition: opacity 0.7s ease, transform 0.25s ease, background 0.2s ease, color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-hero::after, .eyebrow::before { animation: none; }
+  .paper, .venue-list li, .avatar, .card::before, .paper::before { transition: none; }
+}
