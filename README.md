@@ -1,2 +1,2 @@
 # aiscend-labs.github.io
-website
+AIscend Research Mentorship Program official website
