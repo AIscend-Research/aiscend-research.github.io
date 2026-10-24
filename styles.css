@@ -582,6 +582,13 @@ img.avatar { object-position: center 18%; }
   line-height: 1.65;
 }
 
+.paper-summary {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: #4a4738;
+}
+
 .paper-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; }
 .paper-links .btn {
   padding: 13px 22px;
