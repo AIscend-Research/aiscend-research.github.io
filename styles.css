@@ -557,6 +557,13 @@ img.avatar { object-position: center 18%; }
   border-top: 2px solid var(--forest);
 }
 
+.paper-notice {
+  grid-column: 1 / -1;
+  border-top-color: var(--amber);
+  border-top-width: 4px;
+}
+.paper-notice .paper-summary { max-width: 62ch; }
+
 .paper-venue {
   display: block;
   font-family: var(--mono);
